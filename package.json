@@ -1,0 +1,18 @@
+{
+  "name": "zkgraph",
+  "scripts": {
+    "test": "asc demo-uniswap-v2-idx-zkgraph/mapping.ts -o build/mapping.wasm --bindings esm && node src/test.js",
+    "compile": "asc main.ts --lib ./demo-uniswap-v2-idx-zkgraph -t build/main.wat -O --noAssert -o build/main.wasm --disable bulk-memory --use abort=sdk/zkwasm/abort --target release --runtime stub"
+  },
+  "type": "module",
+  "dependencies": {
+    "bn.js": "^5.2.1",
+    "ethers": "^5.7.2",
+    "node-fetch": "^3.3.0",
+    "web3-eth-contract": "^1.8.2",
+    "zkwasm-service-helper": "git+https://github.com/DelphinusLab/zkWasm-service-helper.git"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.27.0"
+  }
+}
