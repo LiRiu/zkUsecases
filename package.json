@@ -1,0 +1,16 @@
+{
+  "name": "zkgraph",
+  "scripts": {
+    "compile": "asc sdk/main.ts --lib ./zkg -t build/main.wat -O --noAssert -o build/main.wasm --bindings esm --disable bulk-memory --use abort=sdk/zkwasm/abort --target release --runtime stub && wc -l build/main.wat",
+    "format": "prettier --write -c **/*.{js,ts,md}",
+    "lint": "prettier -c **/*.{js,ts,md}"
+  },
+  "type": "module",
+  "dependencies": {
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.27.0",
+    "prettier": "2.8.8"
+  }
+}
