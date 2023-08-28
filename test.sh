@@ -2,13 +2,12 @@
 
 # Update `config.js` with your own parameters first!
 # Then run `sh test.sh`
+unset http_proxy && unset https_proxy
 
 npm run compile-local &&
-npm run exec-local -- 17633573 &&
-npm run prove-local -- --inputgen 0x10d1125 b4e16d0168e52d35cacd2c6185b44281ec28c9dc &&
-npm run prove-local -- --test 0x10d1125 b4e16d0168e52d35cacd2c6185b44281ec28c9dc
+npm run exec-local -- 17990782 &&
+npm run prove-local -- --inputgen 17990782 0000000000000000000000000000000000000000000000000000000270ac0e14 &&
+npm run prove-local -- --test 17990782 0000000000000000000000000000000000000000000000000000000270ac0e14
 
-npm run compile &&
-npm run exec -- 17633573 &&
-npm run prove -- --inputgen 0x10d1125 b4e16d0168e52d35cacd2c6185b44281ec28c9dc &&
-npm run prove -- --test 0x10d1125 b4e16d0168e52d35cacd2c6185b44281ec28c9dc
+npm run setup-local &&
+npm run prove-local -- --prove 17990782 0000000000000000000000000000000000000000000000000000000270ac0e14
