@@ -20,7 +20,7 @@ export async function getBlockByNumber(ethersProvider, blockNumber) {
 export async function getBalance(privateKey, networkName) {
   const wallet = new Wallet(privateKey);
   // Using default provider to avoid errors in user defined provider
-  const provider = new providers.getDefaultProvider(networkName)
+  const provider = new providers.getDefaultProvider(networkName);
   const balance = formatEther(await provider.getBalance(wallet.address));
   return balance;
 }

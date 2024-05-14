@@ -51,7 +51,7 @@ export async function get_deployed(image_md5) {
   let requestConfig = {
     method: "get",
     maxBodyLength: Infinity,
-    url: url.searchImageURL(image_md5).url
+    url: url.searchImageURL(image_md5).url,
   };
 
   let errorMessage = null;

@@ -11,6 +11,8 @@ export function handleEvents(events: Event[]): Bytes {
     totalTradeAmount = totalTradeAmount.plus(trade.value);
   }
 
-  const totalTradeAmountBytes = Bytes.fromHexString(totalTradeAmount.toString(16)).padStart(32,0);
+  const totalTradeAmountBytes = Bytes.fromHexString(
+    totalTradeAmount.toString(16),
+  ).padStart(32, 0);
   return totalTradeAmountBytes;
 }

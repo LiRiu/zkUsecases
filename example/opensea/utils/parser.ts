@@ -6,7 +6,9 @@ const OFFERS_OFFSET = BigInt.fromU64(0x80);
 const CONSIDERATIONS_OFFSET = BigInt.fromU64(0x120);
 const SINGLE_OFFER_DATA_SIZE = BigInt.fromU64(32).times(4);
 const SINGLE_CONSIDERATION_DATA_SIZE = BigInt.fromU64(32).times(5);
-const SEAPORT_FEE_RECIPIENT = Bytes.fromHexString("0x0000a26b00c1f0df003000390027140000faa719");
+const SEAPORT_FEE_RECIPIENT = Bytes.fromHexString(
+  "0x0000a26b00c1f0df003000390027140000faa719",
+);
 
 // reference link:
 // https://etherscan.io/address/0x00000000000000adc04c56bf30ac9d3c0aaf14dc#code#F9#L115
@@ -65,7 +67,7 @@ class OfferItem {
     itemType: ItemType,
     token: Bytes,
     identifierOrCriteria: BigInt,
-    amount: BigInt
+    amount: BigInt,
   ) {
     this.itemType = itemType;
     this.token = token;
@@ -87,7 +89,7 @@ class OfferItem {
 
     const itemType: ItemType = itemTypeFromBytes(itemTypeSlice);
     const identifierOrCriteria = BigInt.fromBytesBigEndian(
-      identifierOrCriteriaSlice
+      identifierOrCriteriaSlice,
     );
     const amount = BigInt.fromBytesBigEndian(amountSlice);
 
@@ -116,7 +118,7 @@ function offerItemsFromData(data: Bytes): OfferItem[] {
 
     const offerData = offersData.slice(
       offerDataStartOffset,
-      offerDataEndOffset
+      offerDataEndOffset,
     );
     const offer = OfferItem.fromOfferData(offerData);
     offers.push(offer);
@@ -140,7 +142,7 @@ class Consideration {
     token: Bytes,
     identifierOrCriteria: BigInt,
     amount: BigInt,
-    receipient: Bytes
+    receipient: Bytes,
   ) {
     this.itemType = itemType;
     this.token = token;
@@ -164,7 +166,7 @@ class Consideration {
 
     const itemType: ItemType = itemTypeFromBytes(itemTypeSlice);
     const identifierOrCriteria = BigInt.fromBytesBigEndian(
-      identifierOrCriteriaSlice
+      identifierOrCriteriaSlice,
     );
     const amount = BigInt.fromBytesBigEndian(amountSlice);
 
@@ -173,7 +175,7 @@ class Consideration {
       token,
       identifierOrCriteria,
       amount,
-      recipient
+      recipient,
     );
   }
 }
@@ -187,13 +189,13 @@ class Consideration {
 function considerationsFromData(data: Bytes): Consideration[] {
   const considerationsLengthSlice = data.slice(0, 32);
   const considerationsLength = BigInt.fromBytesBigEndian(
-    considerationsLengthSlice
+    considerationsLengthSlice,
   );
   const considerationsDataSize =
     SINGLE_CONSIDERATION_DATA_SIZE.times(considerationsLength);
   const considerationsData = data.slice(
     32,
-    considerationsDataSize.plus(32).toI32()
+    considerationsDataSize.plus(32).toI32(),
   );
 
   let considerations: Consideration[] = [];
@@ -204,7 +206,7 @@ function considerationsFromData(data: Bytes): Consideration[] {
       (i + 1) * SINGLE_CONSIDERATION_DATA_SIZE.toI32();
     const considerationData = considerationsData.slice(
       considerationDataStartOffset,
-      considerationDataEndOffset
+      considerationDataEndOffset,
     );
     const consideration =
       Consideration.fromConsiderationData(considerationData);
@@ -225,7 +227,7 @@ export class OrderFulfilled {
     orderHash: Bytes,
     recipient: Bytes,
     offers: OfferItem[],
-    considerations: Consideration[]
+    considerations: Consideration[],
   ) {
     this.orderHash = orderHash;
     this.recipient = recipient;
@@ -249,7 +251,7 @@ export class OrderFulfilled {
 
     const offersOffset = BigInt.fromBytesBigEndian(offersOffsetSlice);
     const considerationsOffset = BigInt.fromBytesBigEndian(
-      considerationsOffsetSlice
+      considerationsOffsetSlice,
     );
 
     /*
@@ -266,7 +268,7 @@ export class OrderFulfilled {
 
     const offersData = data.slice(
       offersOffset.toU32(),
-      considerationsOffset.toU32()
+      considerationsOffset.toU32(),
     );
     const offers: OfferItem[] = offerItemsFromData(offersData);
 
@@ -299,7 +301,7 @@ export class OrderFulfilled {
   getTotalEthTradeAmount(): BigInt {
     let totalEthTradeAmount = BigInt.zero();
     for (let i = 0; i < this.considerationsLength; i++) {
-      if( this.considerations[i].recipient === SEAPORT_FEE_RECIPIENT ) continue;
+      if (this.considerations[i].recipient === SEAPORT_FEE_RECIPIENT) continue;
       const EthTradeAmount = this.considerations[i].amount;
       totalEthTradeAmount = totalEthTradeAmount.plus(EthTradeAmount);
     }

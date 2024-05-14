@@ -8,12 +8,22 @@ export function handleEvents(events: Event[]): Bytes {
 
   for (let i = events.length - 1; i >= 0; i--) {
     const orderFulfilled = OrderFulfilled.fromEventData(events[i].data);
-    totalNftTradeAmount = totalNftTradeAmount.plus(orderFulfilled.getTotalNftTradeAmount());
-    totalEthTradeAmount = totalEthTradeAmount.plus(orderFulfilled.getTotalEthTradeAmount());
+    totalNftTradeAmount = totalNftTradeAmount.plus(
+      orderFulfilled.getTotalNftTradeAmount(),
+    );
+    totalEthTradeAmount = totalEthTradeAmount.plus(
+      orderFulfilled.getTotalEthTradeAmount(),
+    );
   }
 
-  const totalNftTradeAmountBytes = Bytes.fromHexString(totalNftTradeAmount.toString(16)).padStart(32,0);
-  const totalEthTradeAmountBytes = Bytes.fromHexString(totalEthTradeAmount.toString(16)).padStart(32,0);
-  const totalTradeAmountBytes = totalNftTradeAmountBytes.concat(totalEthTradeAmountBytes);
+  const totalNftTradeAmountBytes = Bytes.fromHexString(
+    totalNftTradeAmount.toString(16),
+  ).padStart(32, 0);
+  const totalEthTradeAmountBytes = Bytes.fromHexString(
+    totalEthTradeAmount.toString(16),
+  ).padStart(32, 0);
+  const totalTradeAmountBytes = totalNftTradeAmountBytes.concat(
+    totalEthTradeAmountBytes,
+  );
   return Bytes.fromByteArray(totalTradeAmountBytes);
 }

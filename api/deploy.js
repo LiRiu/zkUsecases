@@ -1,9 +1,11 @@
 import { program } from "commander";
 import { config } from "../config.js";
+import { getTargetNetwork } from "./common/utils.js";
 import {
-  getTargetNetwork
-} from "./common/utils.js";
-import { currentNpmScriptName, logDivider, logLoadingAnimation } from "./common/log_utils.js";
+  currentNpmScriptName,
+  logDivider,
+  logLoadingAnimation,
+} from "./common/log_utils.js";
 import { zkwasm_deploy, get_deployed } from "./requests/zkwasm_deploy.js";
 import { ZkWasmUtil } from "zkwasm-service-helper";
 import { readFileSync } from "fs";
@@ -14,7 +16,7 @@ program.version("1.0.0");
 program.argument(
   "[network name]",
   "Name of deployed network for verification contract",
-  "sepolia"
+  "sepolia",
 );
 program.parse(process.argv);
 const args = program.args;
@@ -25,7 +27,8 @@ console.log(">> DEPLOY VERIFICATION CONTRACT", "\n");
 let targetNetwork;
 // Set default network name
 if (args[0] == null) {
-  const inputtedNetworkName = loadZKGraphDestination("src/zkgraph.yaml")[0].network;
+  const inputtedNetworkName =
+    loadZKGraphDestination("src/zkgraph.yaml")[0].network;
   targetNetwork = getTargetNetwork(inputtedNetworkName);
 } else {
   targetNetwork = getTargetNetwork(args[0]);
@@ -46,7 +49,7 @@ console.log(`[*] IMAGE MD5: ${md5}`, "\n");
 let [response, isDeploySuccess, errorMessage] = await zkwasm_deploy(
   targetNetwork.value,
   config.UserPrivateKey,
-  md5
+  md5,
   // "63715F93C83BD315345DFDE9A6E0F814"
 );
 
@@ -75,12 +78,12 @@ if (isDeploySuccess) {
     const [res, _] = await get_deployed(md5);
 
     const verificationContractAddress = res.data.result[0].deployment.find(
-      (x) => x.chain_id == targetNetwork.value
+      (x) => x.chain_id == targetNetwork.value,
     ).address;
 
     console.log(
       `[+] CONTRACT ADDRESS ON ${targetNetwork.name.toUpperCase()}: ${verificationContractAddress}`,
-      "\n"
+      "\n",
     );
 
     logDivider();

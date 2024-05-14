@@ -13,7 +13,7 @@ program.version("1.0.0");
 program
   .argument(
     "<network name>",
-    "Name of deployed network for verification contract"
+    "Name of deployed network for verification contract",
   )
   .argument("<prove task id>", "Task id of prove task");
 program.parse(process.argv);
@@ -35,7 +35,7 @@ if (!validNetworkNames.includes(inputtedNetworkName.toLowerCase())) {
   process.exit(1);
 }
 const targetNetwork = testNets.find(
-  (net) => net.name.toLowerCase() === inputtedNetworkName.toLowerCase()
+  (net) => net.name.toLowerCase() === inputtedNetworkName.toLowerCase(),
 );
 
 // Check task status of prove.
@@ -51,12 +51,12 @@ const imageId = taskDetails.md5;
 const [imageStatus, error] = await zkwasm_imagedetails(imageId);
 const imageDeployment = imageStatus.data.result[0].deployment;
 const deployedContractInfo = imageDeployment.find(
-  (x) => x.chain_id === targetNetwork.value
+  (x) => x.chain_id === targetNetwork.value,
 );
 if (!deployedContractInfo) {
   console.log(
     `[-] DEPLOYED CONTRACT ADDRESS ON TARGET NETWORK IS NOT FOUND. EXITING...`,
-    "\n"
+    "\n",
   );
   logDivider();
   process.exit(1);

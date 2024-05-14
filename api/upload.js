@@ -10,7 +10,10 @@ program.version("1.0.0");
 console.log(">> UPLOAD", "\n");
 
 // zkGraph Name
-const zkGraphName = loadZKGraphName("src/zkgraph.yaml") === null ? "zkGraph" : loadZKGraphName("src/zkgraph.yaml");
+const zkGraphName =
+  loadZKGraphName("src/zkgraph.yaml") === null
+    ? "zkGraph"
+    : loadZKGraphName("src/zkgraph.yaml");
 
 // zkGraph Files Paths
 let wasmPath;
@@ -30,7 +33,7 @@ let [response, isUploadSuccess, errorMessage] = await pinata_upload(
   wasmPath,
   mappingPath,
   yamlPath,
-  zkGraphName
+  zkGraphName,
 );
 
 if (isUploadSuccess) {

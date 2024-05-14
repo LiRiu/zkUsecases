@@ -83,7 +83,7 @@ export function getTargetNetwork(inputtedNetworkName) {
     process.exit(1);
   }
   const targetNetwork = testNets.find(
-    (net) => net.name.toLowerCase() === inputtedNetworkName.toLowerCase()
+    (net) => net.name.toLowerCase() === inputtedNetworkName.toLowerCase(),
   );
   return targetNetwork;
 }

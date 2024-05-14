@@ -11,7 +11,7 @@ export async function pinata_upload(
   wasmPath,
   mappingPath,
   yamlPath,
-  zkGraphName
+  zkGraphName,
 ) {
   let isUploadSuccess = true;
 
